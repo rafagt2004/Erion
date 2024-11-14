@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabela de Clientes</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+
+    <style>
+        body { 
+            font-family: "Open Sans", sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: rgb(30 25 44);
+            text-align: center;
+        }
+        table { 
+            width: 80%; 
+			min-width: 850px;
+            margin: 20px auto; 
+            border-collapse: collapse; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+        th, td { 
+            padding: 12px; 
+            border: 2px solid rgb(30 25 44); 
+            text-align: center; 
+            font-size: 18px;
+            color: #9E9E9E;
+        }
+        th { 
+            color: #FAFAFA; 
+        }
+        button { 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+			vertical-align: middle;
+        }
+        h2 {
+            color: #F96C00;
+            margin-bottom: 20px;
+			min-width: 850px;
+        }
+    </style>
+	<link rel="icon" href="https://www.notion.so/icons/code_orange.svg?mode=dark" type="image/png" />
+</head>
+<body>
+    <a href="https://docs.google.com/spreadsheets/d/1JA0uyuPmdSzPnc8OUdfekB5haXPTNiJN7ktVFuts230/edit?usp=sharing" target="_blank">
+		<div id="lottie-animation" style="width: 100px; height: 100px; position: absolute; top: 1%; left: 1%;"></div>
+	</a>
+
+    <h2>
+        Lista de Protocolos <span style="color: white">para Envio de Boletos</span>
+    </h2>
+
+    <script>
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('lottie-animation'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://lottie.host/8a53ba32-6be9-4c5c-86ac-eb5c98a64b1e/ZHYMmd4O1k.json'
+        });
+    </script>
+
+	<div id="toast" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; background-color: #333; color: #fff; border-radius: 5px; opacity: 0; transition: opacity 0.3s ease;">
+		Protocolo copiado!
+	</div>
+<table style="background:rgb(22 18 33)">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Contato</th>
+            <th>Protocolo</th>
+        </tr>
+    </thead>
+    <tbody id="tabelaClientes">
+    </tbody>
+</table>
+
+<script>
+    const clientes = [
+        { nome: 'A M S SOUZA LTDA', contato: 'CREDIÁRIO SÃO FR', protocolo: '1930-3405976221511' },
+		{ nome: 'A R MACHADO JUNIOR TRANSPORTES LTDA', contato: 'CASA DOS POÇOS', protocolo: '1930-4263332863228' },
+		{ nome: 'ABEDIEL DE LIMA OLIVEIRA', contato: 'POWER TECH', protocolo: '1930-1279368603309' },
+		{ nome: 'BERTIN ATACADISTA E CIA LTDA', contato: 'ASR AGRÍCOLA', protocolo: '1930-1008206747752' },
+		{ nome: 'C LOCH COMERCIO E SERVICOS', contato: 'C LOCH FILIAL', protocolo: '1930-3161963091289' },
+		{ nome: 'D L DA SILVA FABRICACAO', contato: 'DL EMPREENDIMENT', protocolo: '1930-2343066340169' },
+		{ nome: 'DANIEL DA SILVA SANTOS EIRELI', contato: 'AGROMAIS', protocolo: '1930-1834605638203' },
+		{ nome: 'E DA S ROCHA LTDA', contato: 'RR BOOM', protocolo: '1930-1899283229206' },
+		{ nome: 'E PADILHA DE SOUSA LTDA', contato: 'SHOPPING DAS ANT', protocolo: '1930-4175833426275' },
+		{ nome: 'E S LOPES EIRELI', contato: 'Rhoveny Mobile', protocolo: '1930-2521101471110' },
+		{ nome: 'ECO CARTUCHOS SUPRIMENTOS E SERVICOS DE INF.', contato: 'ECO CARTUCHOS', protocolo: '1930-2382922991870' },
+		{ nome: 'F A S CRUZ LTDA', contato: 'Casa da Segurança', protocolo: '1930-44423789445' },
+		{ nome: 'F DOS SANTOS REFRIGERACAO LTDA', contato: 'REFRIGERAÇÃO PIN', protocolo: '1930-2179693597999' },
+		{ nome: 'F P COSTA COMERCIO E SERVIÇOS', contato: 'FP SEGURANÇA', protocolo: '1930-1639366736183' },
+		{ nome: 'G DE OLIVEIRA SOUSA GAS - ME', contato: 'OPÇAO GAS', protocolo: '1930-3912805941783' },
+		{ nome: 'H D A ALMEIDA', contato: 'CREDIÁRIO SÃO FR', protocolo: '1930-3405976221511' },
+		{ nome: 'HAVANAS LOUNGE E CAFE LTDA', contato: 'HAVANAS LOUNGE', protocolo: '1930-2228417320835' },
+		{ nome: 'IMPERIO DAS AGUAS E GAS LTDA', contato: 'Império Água&Gás Buriti', protocolo: '1930-2407930231632' },
+		{ nome: 'J A PALACIOS BEDOYA LTDA', contato: 'PALACIOS CELL', protocolo: '1930-1764569503271' },
+		{ nome: 'J LACERDA VIEIRA LTDA', contato: 'Eliezio', protocolo: '1930-3136611930686' },
+		{ nome: 'J SILVA PRADO LTDA', contato: 'JHONY CELL', protocolo: '1930-2031154725890' },
+		{ nome: 'JOCILENE M DE ARAUJO', contato: 'LACERDA COMERCIO', protocolo: '1930-95844137663' },
+		{ nome: 'JWEB MOVEIS E ELETROS LTDA', contato: 'JWEB MOVEIS', protocolo: '1930-329377637334' },
+		{ nome: 'K M DE SOUZA LTDA', contato: 'RELLISOM SOM', protocolo: '1930-3050008644341' },
+		{ nome: 'M O P DE MATOS COMERCIO', contato: 'CASA DO FAZENDE.', protocolo: '1930-916744837910' },
+		{ nome: 'MEGA CEL & ELETRONICOS LTDA', contato: 'MEGA CELL', protocolo: '1930-481717049498' },
+		{ nome: 'NEIVA M L DA SILVA', contato: 'DL EMPREENDIMENT', protocolo: '1930-2343066340169' },
+		{ nome: 'NOGUEIRA LIMA E OLIVEIRA LTDA', contato: 'MARECHAL RONDON', protocolo: '1930-2797135687912' },
+		{ nome: 'PROSEG SEGURANCA E RASTREAMENTO LTDA', contato: 'Proseg Segurança e Monitoramento', protocolo: '1930-3432713645833' },
+		{ nome: 'R DE L DOS ANJOS', contato: 'PAX S JOÂO', protocolo: '1930-534861652806' },
+		{ nome: 'RAFFAEL RAFFLER DA SILVA', contato: 'RAFFLER REFRIG.', protocolo: '1930-835651001590' },
+		{ nome: 'ROSINEIDE DOS SANTOS COMERCIO ME', contato: 'NOSSO GAS', protocolo: '1930-1930058264502' },
+		{ nome: 'S DOS SANTOS MOREIRA LTDA', contato: 'NOSSO GAS', protocolo: '1930-1930058264502' },
+		{ nome: 'S L DA S MOTA COMERCIO DE CELULARES', contato: 'REPAIR APPLE', protocolo: '1930-766414708815' },
+		{ nome: 'S N CAMPOS LTDA', contato: 'V.AGROSIL MARCOS', protocolo: '1930-961336590426' },
+		{ nome: 'T K RIBEIRO DA SILVA EIRELI', contato: 'LIDER CACA E PES', protocolo: '1930-2751543711596' },
+		{ nome: 'T L TREVISANI PEIXOTO PEGO LTDA', contato: 'REFRINORTE', protocolo: '1930-4117779517293' },
+		{ nome: 'THIAGO SOUSA LIMA LTDA', contato: 'GIORAMA AGRO', protocolo: '1930-1101748171734' },
+		{ nome: 'VIA SATELITE COMUNICACOES LTDA - ME', contato: 'VIA SATELITE', protocolo: '1930-611192453905' },
+		{ nome: 'VIVEIRO TAPAJOS LTDA', contato: 'VIVEIRO TAPAJOS', protocolo: '1930-2304369398754' },
+		{ nome: 'W M SILVA LTDA', contato: 'Space', protocolo: '1930-3617623848197' },
+		{ nome: 'WILLIAN DA SILVA SOUZA LTDA', contato: 'MUNDO DO CELULAR', protocolo: '1930-602166771483' },
+    ];
+    function gerarTabela() {
+        const tabela = document.getElementById("tabelaClientes");
+        
+        clientes.forEach((cliente, index) => {
+            const row = document.createElement("tr");
+
+            const cellCliente = document.createElement("td");
+            cellCliente.textContent = cliente.nome;
+            row.appendChild(cellCliente);
+
+            const cellContato = document.createElement("td");
+            cellContato.textContent = cliente.contato;
+            row.appendChild(cellContato);
+
+            const cellProtocolo = document.createElement("td");
+            const spanProtocolo = document.createElement("span");
+            spanProtocolo.textContent = cliente.protocolo;
+            cellProtocolo.appendChild(spanProtocolo);
+
+            const button = document.createElement("button");
+			button.onclick = () => copiarTexto(spanProtocolo);
+			
+			const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+			svg.setAttribute("viewBox", "0 0 19 20");
+			svg.setAttribute("fill", "none");
+			svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+			svg.setAttribute("class", "w-5");
+			svg.setAttribute("style", "width: 20px; height: 20px;");
+
+			const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+			path.setAttribute("d", "M8.5 2C7.39543 2 6.5 2.89543 6.5 4V14C6.5 15.1046 7.39543 16 8.5 16H14.5C15.6046 16 16.5 15.1046 16.5 14V4C16.5 2.89543 15.6046 2 14.5 2H8.5ZM7.5 4C7.5 3.44772 7.94772 3 8.5 3H14.5C15.0523 3 15.5 3.44772 15.5 4V14C15.5 14.5523 15.0523 15 14.5 15H8.5C7.94772 15 7.5 14.5523 7.5 14V4ZM4.5 6.00001C4.5 5.25973 4.9022 4.61339 5.5 4.26758V14.5C5.5 15.8807 6.61929 17 8 17H14.2324C13.8866 17.5978 13.2403 18 12.5 18H8C6.067 18 4.5 16.433 4.5 14.5V6.00001Z");
+			path.setAttribute("fill", "#009929");
+			svg.appendChild(path);
+
+			button.appendChild(svg);
+
+			cellProtocolo.appendChild(button);
+			row.appendChild(cellProtocolo);
+			tabela.appendChild(row);
+
+        });
+    }
+    function copiarTexto(span) {
+    const texto = span.textContent;
+    navigator.clipboard.writeText(texto).then(() => {
+        showToast("Protocolo copiado!");
+    }).catch(err => {
+        showToast("Falha ao copiar: " + err);
+    });
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message; 
+    toast.style.opacity = 1;       
+
+    setTimeout(() => {
+        toast.style.opacity = 0;
+    }, 3000);
+}
+
+
+    window.onload = gerarTabela;
+</script>
+
+</body>
+</html>
